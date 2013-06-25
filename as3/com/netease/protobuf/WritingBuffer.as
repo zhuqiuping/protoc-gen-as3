@@ -36,7 +36,7 @@ package com.netease.protobuf {
 			slices.push(position)
 			const beginPosition:uint = slices[beginSliceIndex + 2]
 			slices[beginSliceIndex] = position
-			WriteUtils.write$TYPE_UINT32(this, position - beginPosition)
+			WriteUtils.write_TYPE_UINT32(this, position - beginPosition)
 			slices[beginSliceIndex + 1] = position
 			slices.push(position)
 		}

@@ -147,7 +147,7 @@ package com.netease.protobuf {
 				messageFields = description.*.
 					(
 						0 == String(@type).search(
-							/^com.netease.protobuf.fieldDescriptors::(Repeated)?FieldDescriptor\$/) &&
+							/^com.netease.protobuf.fieldDescriptors::(Repeated)?FieldDescriptor_/) &&
 						// Not extension
 						BaseFieldDescriptor(type[@name]).name.search(/\//) == -1
 					).@name
@@ -201,6 +201,9 @@ package com.netease.protobuf {
 				}
 			}
 			for (var key:String in message) {
+				if (!message.propertyIsEnumerable(key)) {
+					continue
+				}
 				var extension:BaseFieldDescriptor
 				try {
 					extension = BaseFieldDescriptor.getExtensionByName(key)
@@ -278,23 +281,23 @@ package com.netease.protobuf {
 				if (stringValue !== null) {
 					printString(output, stringValue)
 				} else {
-					const enumFieldDescriptor:FieldDescriptor$TYPE_ENUM =
-							fieldDescriptor as FieldDescriptor$TYPE_ENUM
+					const enumFieldDescriptor:FieldDescriptor_TYPE_ENUM =
+							fieldDescriptor as FieldDescriptor_TYPE_ENUM
 					if (enumFieldDescriptor) {
 						printEnum(output, int(value),
 								enumFieldDescriptor.enumType)
 					} else {
 						const enumRepeatedFieldDescriptor:
-								RepeatedFieldDescriptor$TYPE_ENUM =
+								RepeatedFieldDescriptor_TYPE_ENUM =
 								fieldDescriptor as
-								RepeatedFieldDescriptor$TYPE_ENUM
+								RepeatedFieldDescriptor_TYPE_ENUM
 						if (enumRepeatedFieldDescriptor) {
 							printEnum(output, int(value),
 									enumRepeatedFieldDescriptor.enumType)
 						} else if (
-								fieldDescriptor is FieldDescriptor$TYPE_BYTES ||
+								fieldDescriptor is FieldDescriptor_TYPE_BYTES ||
 								fieldDescriptor is
-										RepeatedFieldDescriptor$TYPE_BYTES) {
+										RepeatedFieldDescriptor_TYPE_BYTES) {
 							printBytes(output, ByteArray(value))
 						} else {
 							output.writeUTFBytes(value.toString())
@@ -656,17 +659,17 @@ package com.netease.protobuf {
 						message[fieldDescriptor.name] ||
 						(message[fieldDescriptor.name] = [])
 				const enumRepeatedFieldDescriptor:
-						RepeatedFieldDescriptor$TYPE_ENUM =
+						RepeatedFieldDescriptor_TYPE_ENUM =
 						repeatedFieldDescriptor as
-						RepeatedFieldDescriptor$TYPE_ENUM
+						RepeatedFieldDescriptor_TYPE_ENUM
 				destination.push(enumRepeatedFieldDescriptor ?
 						consumeEnumFieldValue(source,
 						enumRepeatedFieldDescriptor.enumType) :
 						consumeFieldValue(source,
 						repeatedFieldDescriptor.elementType))
 			} else {
-				const enumFieldDescriptor:FieldDescriptor$TYPE_ENUM =
-						fieldDescriptor as FieldDescriptor$TYPE_ENUM
+				const enumFieldDescriptor:FieldDescriptor_TYPE_ENUM =
+						fieldDescriptor as FieldDescriptor_TYPE_ENUM
 				message[fieldDescriptor.name] = enumFieldDescriptor ?
 						consumeEnumFieldValue(source,
 						enumFieldDescriptor.enumType) :

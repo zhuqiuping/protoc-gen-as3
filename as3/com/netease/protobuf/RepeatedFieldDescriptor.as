@@ -27,7 +27,7 @@ package com.netease.protobuf {
 		public final function readPacked(input:IDataInput,
 				message:Message):void {
 			const destination:Array = message[name] || (message[name] = [])
-			const length:uint = ReadUtils.read$TYPE_UINT32(input)
+			const length:uint = ReadUtils.read_TYPE_UINT32(input)
 			if (input.bytesAvailable < length) {
 				throw new IOError("Invalid message length: " + length)
 			}
@@ -47,11 +47,11 @@ package com.netease.protobuf {
 			const source:Array = message[name]
 			if ((tag & 7) == nonPackedWireType) {
 				for (var k:uint = 0; k < source.length; k++) {
-					WriteUtils.write$TYPE_UINT32(output, tag)
+					WriteUtils.write_TYPE_UINT32(output, tag)
 					writeSingleField(output, source[k])
 				}
 			} else {
-				WriteUtils.write$TYPE_UINT32(output, tag)
+				WriteUtils.write_TYPE_UINT32(output, tag)
 				const i:uint = output.beginBlock()
 				for (var j:uint = 0; j < source.length; j++) {
 					writeSingleField(output, source[j])

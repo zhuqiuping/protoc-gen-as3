@@ -25,7 +25,7 @@ package com.netease.protobuf {
 				input.readInt()
 				break
 			case WireType.LENGTH_DELIMITED:
-				for (var i:uint = read$TYPE_UINT32(input); i != 0; i--) {
+				for (var i:uint = read_TYPE_UINT32(input); i != 0; i--) {
 					input.readByte()
 				}
 				break
@@ -36,13 +36,13 @@ package com.netease.protobuf {
 				throw new IOError("Invalid wire type: " + wireType)
 			}
 		}
-		public static function read$TYPE_DOUBLE(input:IDataInput):Number {
+		public static function read_TYPE_DOUBLE(input:IDataInput):Number {
 			return input.readDouble()
 		}
-		public static function read$TYPE_FLOAT(input:IDataInput):Number {
+		public static function read_TYPE_FLOAT(input:IDataInput):Number {
 			return input.readFloat()
 		}
-		public static function read$TYPE_INT64(input:IDataInput):Int64 {
+		public static function read_TYPE_INT64(input:IDataInput):Int64 {
 			const result:Int64 = new Int64
 			var b:uint
 			var i:uint = 0
@@ -81,7 +81,7 @@ package com.netease.protobuf {
 			}
 			return result
 		}
-		public static function read$TYPE_UINT64(input:IDataInput):UInt64 {
+		public static function read_TYPE_UINT64(input:IDataInput):UInt64 {
 			const result:UInt64 = new UInt64
 			var b:uint
 			var i:uint = 0
@@ -120,34 +120,34 @@ package com.netease.protobuf {
 			}
 			return result
 		}
-		public static function read$TYPE_INT32(input:IDataInput):int {
-			return int(read$TYPE_UINT32(input))
+		public static function read_TYPE_INT32(input:IDataInput):int {
+			return int(read_TYPE_UINT32(input))
 		}
-		public static function read$TYPE_FIXED64(input:IDataInput):UInt64 {
+		public static function read_TYPE_FIXED64(input:IDataInput):UInt64 {
 			const result:UInt64 = new UInt64
 			result.low = input.readUnsignedInt()
 			result.high = input.readUnsignedInt()
 			return result
 		}
-		public static function read$TYPE_FIXED32(input:IDataInput):uint {
+		public static function read_TYPE_FIXED32(input:IDataInput):uint {
 			return input.readUnsignedInt()
 		}
-		public static function read$TYPE_BOOL(input:IDataInput):Boolean {
-			return read$TYPE_UINT32(input) != 0
+		public static function read_TYPE_BOOL(input:IDataInput):Boolean {
+			return read_TYPE_UINT32(input) != 0
 		}
-		public static function read$TYPE_STRING(input:IDataInput):String {
-			const length:uint = read$TYPE_UINT32(input)
+		public static function read_TYPE_STRING(input:IDataInput):String {
+			const length:uint = read_TYPE_UINT32(input)
 			return input.readUTFBytes(length)
 		}
-		public static function read$TYPE_BYTES(input:IDataInput):ByteArray {
+		public static function read_TYPE_BYTES(input:IDataInput):ByteArray {
 			const result:ByteArray = new ByteArray
-			const length:uint = read$TYPE_UINT32(input)
+			const length:uint = read_TYPE_UINT32(input)
 			if (length > 0) {
 				input.readBytes(result, 0, length)
 			}
 			return result
 		}
-		public static function read$TYPE_UINT32(input:IDataInput):uint {
+		public static function read_TYPE_UINT32(input:IDataInput):uint {
 			var result:uint = 0
 			for (var i:uint = 0;; i += 7) {
 				const b:uint = input.readUnsignedByte()
@@ -165,32 +165,32 @@ package com.netease.protobuf {
 			}
 			return result
 		}
-		public static function read$TYPE_ENUM(input:IDataInput):int {
-			return read$TYPE_INT32(input)
+		public static function read_TYPE_ENUM(input:IDataInput):int {
+			return read_TYPE_INT32(input)
 		}
-		public static function read$TYPE_SFIXED32(input:IDataInput):int {
+		public static function read_TYPE_SFIXED32(input:IDataInput):int {
 			return input.readInt()
 		}
-		public static function read$TYPE_SFIXED64(input:IDataInput):Int64 {
+		public static function read_TYPE_SFIXED64(input:IDataInput):Int64 {
 			const result:Int64 = new Int64
 			result.low = input.readUnsignedInt()
 			result.high = input.readInt()
 			return result
 		}
-		public static function read$TYPE_SINT32(input:IDataInput):int {
-			return ZigZag.decode32(read$TYPE_UINT32(input))
+		public static function read_TYPE_SINT32(input:IDataInput):int {
+			return ZigZag.decode32(read_TYPE_UINT32(input))
 		}
-		public static function read$TYPE_SINT64(input:IDataInput):Int64 {
-			const result:Int64 = read$TYPE_INT64(input)
+		public static function read_TYPE_SINT64(input:IDataInput):Int64 {
+			const result:Int64 = read_TYPE_INT64(input)
 			const low:uint = result.low
 			const high:uint = result.high
 			result.low = ZigZag.decode64low(low, high)
 			result.high = ZigZag.decode64high(low, high)
 			return result
 		}
-		public static function read$TYPE_MESSAGE(input:IDataInput,
+		public static function read_TYPE_MESSAGE(input:IDataInput,
 				message:Message):Message {
-			const length:uint = read$TYPE_UINT32(input)
+			const length:uint = read_TYPE_UINT32(input)
 			if (input.bytesAvailable < length) {
 				throw new IOError("Invalid message length: " + length)
 			}
@@ -203,7 +203,7 @@ package com.netease.protobuf {
 		}
 		public static function readPackedRepeated(input:IDataInput,
 				readFuntion:Function, value:Array):void {
-			const length:uint = read$TYPE_UINT32(input)
+			const length:uint = read_TYPE_UINT32(input)
 			if (input.bytesAvailable < length) {
 				throw new IOError("Invalid message length: " + length)
 			}

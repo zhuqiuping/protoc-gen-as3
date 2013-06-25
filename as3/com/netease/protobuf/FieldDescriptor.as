@@ -20,7 +20,7 @@ package com.netease.protobuf {
 		}
 		override public final function write(output:WritingBuffer,
 				message:Message):void {
-			WriteUtils.write$TYPE_UINT32(output, tag)
+			WriteUtils.write_TYPE_UINT32(output, tag)
 			writeSingleField(output, message[name])
 		}
 	}

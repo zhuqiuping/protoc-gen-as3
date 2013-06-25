@@ -46,7 +46,7 @@ package com.netease.protobuf {
 		 */
 		public final function mergeDelimitedFrom(input:IDataInput):void {
 			input.endian = flash.utils.Endian.LITTLE_ENDIAN
-			ReadUtils.read$TYPE_MESSAGE(input, this)
+			ReadUtils.read_TYPE_MESSAGE(input, this)
 		}
 		/**
 		 * Serializes the message and writes it to <code>output</code>.
@@ -92,7 +92,7 @@ package com.netease.protobuf {
 		 */
 		public final function writeDelimitedTo(output:IDataOutput):void {
 			const buffer:com.netease.protobuf.WritingBuffer = new com.netease.protobuf.WritingBuffer()
-			WriteUtils.write$TYPE_MESSAGE(buffer, this)
+			WriteUtils.write_TYPE_MESSAGE(buffer, this)
 			buffer.toNormal(output)
 		}
 
@@ -114,19 +114,19 @@ package com.netease.protobuf {
 
 		private function writeSingleUnknown(output:WritingBuffer, tag:uint,
 				value:*):void {
-			WriteUtils.write$TYPE_UINT32(output, tag)
+			WriteUtils.write_TYPE_UINT32(output, tag)
 			switch (tag & 7) {
 			case WireType.VARINT:
-				WriteUtils.write$TYPE_UINT64(output, value)
+				WriteUtils.write_TYPE_UINT64(output, value)
 				break
 			case WireType.FIXED_64_BIT:
-				WriteUtils.write$TYPE_FIXED64(output, value)
+				WriteUtils.write_TYPE_FIXED64(output, value)
 				break
 			case WireType.LENGTH_DELIMITED:
-				WriteUtils.write$TYPE_BYTES(output, value)
+				WriteUtils.write_TYPE_BYTES(output, value)
 				break
 			case WireType.FIXED_32_BIT:
-				WriteUtils.write$TYPE_FIXED32(output, value)
+				WriteUtils.write_TYPE_FIXED32(output, value)
 				break
 			default:
 				throw new IOError("Invalid wire type: " + (tag & 7))
@@ -151,6 +151,9 @@ package com.netease.protobuf {
 		 */
 		protected final function writeExtensionOrUnknown(output:WritingBuffer,
 				fieldName:String):void {
+			if (!this.propertyIsEnumerable(fieldName)) {
+				return
+			}
 			var fieldDescriptor:BaseFieldDescriptor
 			try {
 				fieldDescriptor =
@@ -168,16 +171,16 @@ package com.netease.protobuf {
 			var value:*
 			switch (tag & 7) {
 			case WireType.VARINT:
-				value = ReadUtils.read$TYPE_UINT64(input)
+				value = ReadUtils.read_TYPE_UINT64(input)
 				break
 			case WireType.FIXED_64_BIT:
-				value = ReadUtils.read$TYPE_FIXED64(input)
+				value = ReadUtils.read_TYPE_FIXED64(input)
 				break
 			case WireType.LENGTH_DELIMITED:
-				value = ReadUtils.read$TYPE_BYTES(input)
+				value = ReadUtils.read_TYPE_BYTES(input)
 				break
 			case WireType.FIXED_32_BIT:
-				value = ReadUtils.read$TYPE_FIXED32(input)
+				value = ReadUtils.read_TYPE_FIXED32(input)
 				break
 			default:
 				throw new IOError("Invalid wire type: " + (tag & 7))
